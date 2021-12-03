@@ -1,0 +1,25 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Docker Commands\
+\
+Check the setup of the commands in your make file first, but they will be something similar to these:\
+\'91make start\'92 creates the docker image based on your makefile params\
+\'91make shell\'92 to log on to container and from there you can run unix commands to see directories, etc.\
+\
+docker ps -a //gives you list of containers and images running\
+docker rm containername //removes container running\
+docker stop containername //stops container running\
+docker images // lists images\
+docker logs <container id> // shows logs for that container\
+docker rm <container id> // removes a container \
+docker rmi \'96f <image id> // removes an image (Note you must remove the container first.  Including the \'96f overrides everything and will remove the image)\
+\
+//Creates the docker image, note the period \'91.\'92 is mandatory\
+docker build -t my_image .  \
+docker run //runs the app in the Docker Container\
+docker run -d -p 8080:8080 my_image}

@@ -1,0 +1,9 @@
+Kill a Java Process holding a Port
+
+Find:
+lsof -i :8080
+
+Kill:
+kill -9 <PID>
+
+can use the sudo prefix if it gives a permission error

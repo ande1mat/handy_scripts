@@ -1,0 +1,31 @@
+Redis Cache Commands
+
+//Startup server
+redis-server /usr/local/etc/redis.conf
+
+
+//Shutdown server
+redis-cli shutdown
+
+
+//return all the redis keys
+redis-cli keys "*"
+
+//Clear the Cache of keys
+redis-cli flushdb
+
+
+// connect to the redis cli
+redis-cli -c -h cahcename.prod.path.com -p PORT#
+
+- once connected, connect by entering password
+auth PASSWORD
+
+- check arraysize of db to validate it hasn't reset
+dbsize
+
+- if needed, check keys to validate keys are there (kind of a slow process and does hold up redis for a second)
+keys *
+
+- get a specific Key 
+get Key

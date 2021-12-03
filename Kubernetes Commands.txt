@@ -1,0 +1,99 @@
+
+Kubernetes Commands
+
+K8s Setup
+
+Local kubectl Setup:
+
+1. Get the config file that contains your tokens, namespace details for all your environments
+2. Install kubectl 
+3. Change your context from minikube to other namespace in K8
+		kubectl config use-context <your namespace>
+		kubectl get pods
+
+K8 COMMANDS
+K8s guide - http://kubernetes.io/docs/
+ 
+minikube start // create local minikube K8s cluster
+minikube dashboard
+minikube stop // stops the K8s cluster but preserves state
+minikube delete // stops the K8s cluster and does not preserve state
+minikube service <name of service> --url // to get the address:port of the service
+
+kubectl get ing  //gets the ingresses on the namespace
+kubectl get service //gets the services on the namespace
+kubectl get pod // used to interact with the K8 cluster, gets all pods with status
+
+kubectl cluster-info dump //dump is optional...gives more details
+kubectl get service <name of service> --output='jsonpath="{.spec.ports[0].NodePort}"' // to get the NodePort of a service
+
+kubectl describe service <name of service
+kubectl create -f <yml file> // to deploy on minikube or any K8s
+
+kubectl delete rs <name of replica set> //use this if your pod won’t delete, and you already delete your deployment.  Check if an orphan replicate set exists first.  kubectl get rs
+
+
+Changing your command line namespace context
+kubectl config current-context //Understand context (minikube or some other namespace)
+kubectl config use-context <your namespace> //change your context
+
+**For the above config commands to work you need to have a local config file in your .kube folder which contains all the k8 api servers, namespaces, and certificates so you can connect using kubectl**
+
+kubectl config view //View the config file kubectl is using
+
+kubectl delete pod <name of pod>
+kubectl logs <name of pod> // to troubleshoot why a container failed to start in a pod
+kubectl get deployment
+kubectl delete deployment <name of deployment> // a deployment needs to be deleted if you want to start a deployment from scratch.
+                        // if you just delete the pod, it recreates it because the deployment still exists
+                        // when a deployment is deleted, it will delete all pods under it
+kubectl exec -it NAMEOFPOD /bin/bash  (logs you into the root of POD) 
+minikube dashboard
+
+Debugging your PODs
+https://kubernetes.io/docs/tasks/debug-application-cluster/debug-pod-replication-controller/
+kubectl describe pods ${POD_NAME}
+kubectl logs -f POD_NAME APP_NAME
+E.g. kubectl logs -f pod# app name
+
+ 
+Note: that the name labels on the service and deployment must match else the Service and Deployment/POD can’t talk to one another.
+
+http://cloudgeekz.com/871/deploying-a-service-on-a-kubernetes-cluster.html
+ 
+ 
+
+Create a Service to expose the IP externally (Does not work with Minikube!)
+kubectl expose deployment yourname --type=LoadBalancer ash-deployment
+kubectl get services
+
+or using a service.yaml
+kubectl create –f service.yaml
+
+
+Kubernetes Secret Management:
+Each application has a “App Group” in K8 where we keep the secret files.  If you need to add secrets you need to create a Secret file for your App group and add all your secrets in that file.
+Use the following commands:
+•	View all Secret Files on your Namespace:
+o	kubectl get secret //for your current kubectl context
+•	View the Secret File:
+o	kubectl get secret <name of your app group> -o yaml
+•	Create a Secret file for your App group:
+o	kubectl create -f <yml file>  //Creates the secret file
+•	View the Hash64 encoded Secrets
+•	$ echo 'secret value' | base64 --decode
+o	
+
+echo 'abcdefghijklmn' | base64 --decode
+
+Creating your own K8 Secrets - STEPS
+https://kubernetes.io/docs/concepts/configuration/secret/#creating-your-own-secrets
+
+
+Certificates - key Tool
+
+Get Cert Details:
+keytool -printcert -v -file <cert-name>.cer
+keytool -list -v -keystore client.truststore.jks
+
+
